@@ -42,20 +42,13 @@ export function CSVContextProvider({ children }: IProps) {
   const [minZ, setMinZ] = useState(0);
   const [maxZ, setMaxZ] = useState(0);
 
-  // const data = [
-  //   { KP: "10", X: "585281.709", Y: "2108892.92", Z: "-3.56" },
-  //   { KP: "6", X: "585281.10", Y: "2108892.40", Z: "-3.56" },
-  //   { KP: "7", X: "5852817", Y: "2108892.4", Z: "-3.56" },
-  //   { KP: "3", X: "709", Y: "877.92", Z: "-3.56" },
-  // ];
-
   function findMinMax(data: any) {
-    let firstEntryX = data.find((entry: any) => entry.X); // Find the first entry with a valid X value
+    let firstEntryX = data.find((entry: any) => entry.X);
     let firstEntryY = data.find((entry: any) => entry.Y);
     let firstEntryZ = data.find((entry: any) => entry.Z);
 
     if (!firstEntryX) {
-      return { minX: undefined, maxX: undefined }; // No valid X values found
+      return { minX: undefined, maxX: undefined };
     }
 
     if (!firstEntryY) {

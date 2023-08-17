@@ -2,6 +2,7 @@
 import CSVContext from "@/app/context/CSVContext";
 import FormContext from "@/app/context/FormContext";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "next/navigation";
 import Papa from "papaparse";
 import { useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -39,19 +40,23 @@ type FormValues = {
 };
 
 const FormTwo = () => {
-  const { setFormTwoData } = useContext(FormContext);
+  const router = useRouter();
+  const { setFormTwoData, formOneData } = useContext(FormContext);
   const { setFileData, minX, maxX, minY, maxY, minZ, maxZ } =
     useContext(CSVContext);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    reset,
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
   const onSubmit = (data: any) => {
-    setFormTwoData(data);
+    setFormTwoData({ ...formOneData, ...data });
+    router.push("/result");
   };
 
   const handleChange = (e: any) => {

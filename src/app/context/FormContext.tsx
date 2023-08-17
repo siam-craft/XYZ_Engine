@@ -15,6 +15,7 @@ interface IFormContext {
   formTwoData: any;
   setFormOneData: Dispatch<SetStateAction<any>>;
   setFormTwoData: Dispatch<SetStateAction<any>>;
+  centralFormData: any;
 }
 interface IProps {
   children: ReactNode;
@@ -27,18 +28,12 @@ const FormContext = createContext<IFormContext>({
   formOneData: {},
   setFormTwoData: () => {},
   setFormOneData: () => {},
+  centralFormData: {},
 });
 
 export function FormProvider({ children }: IProps) {
   const [step, setStep] = useState(1);
-  const [centralFormData, setCentralFormData] = useState({
-    projectName: "",
-    client: "",
-    contractor: "",
-    projectDescription: "",
-    maxX: 0,
-    minX: 0,
-  });
+  const [centralFormData, setCentralFormData] = useState([{}]);
 
   const [formOneData, setFormOneData] = useState({
     projectName: "",
@@ -49,8 +44,15 @@ export function FormProvider({ children }: IProps) {
   const [formTwoData, setFormTwoData] = useState({ maxX: 0, minX: 0 });
 
   useEffect(() => {
-    setCentralFormData({ ...formOneData, ...formTwoData });
-  }, [formOneData, formTwoData]);
+    for (let data of centralFormData) {
+      console.log(Object.entries({ data }));
+    }
+    setCentralFormData([...centralFormData, { ...formTwoData }]);
+    console.log(centralFormData);
+  }, [formTwoData]);
+
+  console.log(formTwoData);
+  console.log(centralFormData);
 
   const value = {
     step,
@@ -59,6 +61,7 @@ export function FormProvider({ children }: IProps) {
     setFormOneData,
     formTwoData,
     setFormTwoData,
+    centralFormData,
   };
 
   console.log({ centralFormData });
