@@ -67,6 +67,7 @@ const FormTwo = () => {
       },
     });
   };
+
   useEffect(() => {
     setValue("minX", minX);
     setValue("maxX", maxX);
@@ -74,7 +75,7 @@ const FormTwo = () => {
     setValue("maxY", maxY);
     setValue("minZ", minZ);
     setValue("maxZ", maxZ);
-  }, [setValue, minX, maxX, minY, maxY, minZ, maxZ]);
+  }, [minX, maxX, minY, maxY, minZ, maxZ]);
 
   return (
     <div>

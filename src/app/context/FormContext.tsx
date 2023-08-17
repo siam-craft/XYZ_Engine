@@ -44,15 +44,8 @@ export function FormProvider({ children }: IProps) {
   const [formTwoData, setFormTwoData] = useState({ maxX: 0, minX: 0 });
 
   useEffect(() => {
-    for (let data of centralFormData) {
-      console.log(Object.entries({ data }));
-    }
     setCentralFormData([...centralFormData, { ...formTwoData }]);
-    console.log(centralFormData);
   }, [formTwoData]);
-
-  console.log(formTwoData);
-  console.log(centralFormData);
 
   const value = {
     step,
@@ -64,7 +57,6 @@ export function FormProvider({ children }: IProps) {
     centralFormData,
   };
 
-  console.log({ centralFormData });
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 }
 
