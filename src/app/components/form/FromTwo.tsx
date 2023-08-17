@@ -6,8 +6,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 const schema = yup
   .object({
-    maxX: yup.number().required(),
-    minX: yup.number().required(),
+    maxX: yup.number().required("You must put a number"),
+    minX: yup.number().required("You must put a number"),
   })
   .required();
 type Inputs = {
@@ -26,9 +26,10 @@ const FormTwo = () => {
     resolver: yupResolver(schema),
   });
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    // console.log(data);
     setFormTwoData(data);
   };
+
+  console.log(errors);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -46,6 +47,7 @@ const FormTwo = () => {
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Max value of x"
             />
+            <p className="text-red-500 mt-2">{errors.maxX?.message}</p>
           </div>
 
           <div className="mb-6">
@@ -61,6 +63,7 @@ const FormTwo = () => {
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Min value of x"
             />
+            <p className="text-red-500 mt-2">{errors.minX?.message}</p>
           </div>
         </div>
         <button

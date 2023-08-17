@@ -6,10 +6,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 const schema = yup
   .object({
-    projectName: yup.string().required(),
-    client: yup.string().required(),
-    contractor: yup.string().required(),
-    projectDescription: yup.string().required(),
+    projectName: yup.string().required("Project Name is required"),
+    client: yup.string().required("Client is required"),
+    contractor: yup.string().required("Contractor is required"),
+    projectDescription: yup
+      .string()
+      .required("Project Description is required"),
   })
   .required();
 type Inputs = {
@@ -32,9 +34,10 @@ const FormOne = () => {
   });
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setStep((prev: number) => prev + 1);
-    // console.log(data);
     setFormOneData(data);
   };
+
+  console.log(errors);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,8 +55,8 @@ const FormOne = () => {
               type="text"
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Project Name"
-              required
             />
+            <p className="text-red-500 mt-2">{errors.projectName?.message}</p>
           </div>
 
           <div className="mb-6">
@@ -69,6 +72,7 @@ const FormOne = () => {
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Client"
             />
+            <p className="text-red-500 mt-2">{errors.client?.message}</p>
           </div>
 
           <div className="mb-6">
@@ -84,6 +88,7 @@ const FormOne = () => {
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="contractor"
             />
+            <p className="text-red-500 mt-2">{errors.contractor?.message}</p>
           </div>
           <div className="mb-6 col-span-3">
             <label
@@ -100,6 +105,9 @@ const FormOne = () => {
               className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Project Description"
             />
+            <p className="text-red-500 mt-2">
+              {errors.projectDescription?.message}
+            </p>
           </div>
         </div>
         {step === 1 && (
