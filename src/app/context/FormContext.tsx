@@ -52,8 +52,6 @@ export function FormProvider({ children }: IProps) {
     setCentralFormData({ ...formOneData, ...formTwoData });
   }, [formOneData, formTwoData]);
 
-  // console.log(formData);
-
   const value = {
     step,
     setStep,
@@ -62,7 +60,7 @@ export function FormProvider({ children }: IProps) {
     formTwoData,
     setFormTwoData,
   };
-  console.log(centralFormData);
+
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 }
 

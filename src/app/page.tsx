@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import * as yup from "yup";
 import FormOne from "./components/form/FormOne";
 import FormTwo from "./components/form/FromTwo";
@@ -27,11 +27,6 @@ const schema = yup
 
 export default function Home() {
   const { step } = useContext(FormContext);
-  const [btnState, setBtnState] = useState(false);
-  const nextHandler = (e: any) => {
-    console.log("btn click");
-    // setStep((prev: number) => prev + 1);
-  };
 
   return (
     <div className="max-w-[1200px] m-auto border-1 border shadow-md px-3 py-4 min-h-screen">

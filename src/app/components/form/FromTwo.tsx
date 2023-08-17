@@ -1,6 +1,7 @@
 "use client";
 import FormContext from "@/app/context/FormContext";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Papa from "papaparse";
 import { useContext } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -30,8 +31,35 @@ const FormTwo = () => {
   };
 
   console.log(errors);
+
+  const handleChange = (e: any) => {
+    Papa.parse(e.target.files[0], {
+      header: true,
+      complete: (result) => {
+        console.log(result?.data);
+      },
+    });
+  };
   return (
     <div>
+      <div className="mb-2">
+        <label className="block mb-2 text-sm font-medium " htmlFor="file">
+          Upload file
+        </label>
+        <input
+          type="file"
+          name="file"
+          id="file"
+          accept=".csv"
+          onChange={handleChange}
+          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none "
+          aria-describedby="file_input_help"
+        />
+        <p className="mt-1 text-sm text-gray-500 " id="file_input_help">
+          .csv only
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid grid-cols-3 gap-4">
           <div className="mb-6">

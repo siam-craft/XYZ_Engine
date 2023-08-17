@@ -37,7 +37,6 @@ const FormOne = () => {
     setFormOneData(data);
   };
 
-  console.log(errors);
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
