@@ -1,45 +1,76 @@
 "use client";
+import CSVContext from "@/app/context/CSVContext";
 import FormContext from "@/app/context/FormContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Papa from "papaparse";
-import { useContext } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import * as yup from "yup";
 const schema = yup
   .object({
-    maxX: yup.number().required("You must put a number"),
-    minX: yup.number().required("You must put a number"),
+    maxX: yup
+      .number()
+      .required("You must put a number")
+      .min(1, "value should be greater than 0"),
+    minX: yup
+      .number()
+      .required("You must put a number")
+      .min(1, "value should be greater than 0"),
+    minY: yup
+      .number()
+      .required("You must put a number")
+      .min(1, "value should be greater than 0"),
+    maxY: yup
+      .number()
+      .required("You must put a number")
+      .min(1, "value should be greater than 0"),
+    minZ: yup.number().required("You must put a number"),
+    maxZ: yup.number().required("You must put a number"),
   })
   .required();
-type Inputs = {
-  maxX: number;
+
+type FormValues = {
   minX: number;
+  maxX: number;
+  minY: number;
+  maxY: number;
+  minZ: number;
+  maxZ: number;
 };
 
 const FormTwo = () => {
   const { setFormTwoData } = useContext(FormContext);
+  const { setFileData, minX, maxX, minY, maxY, minZ, maxZ } =
+    useContext(CSVContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
-    defaultValues: {},
+    setValue,
+  } = useForm<FormValues>({
     resolver: yupResolver(schema),
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit = (data: any) => {
     setFormTwoData(data);
   };
-
-  console.log(errors);
 
   const handleChange = (e: any) => {
     Papa.parse(e.target.files[0], {
       header: true,
       complete: (result) => {
-        console.log(result?.data);
+        setFileData(result?.data);
       },
     });
   };
+  useEffect(() => {
+    setValue("minX", minX);
+    setValue("maxX", maxX);
+    setValue("minY", minY);
+    setValue("maxY", maxY);
+    setValue("minZ", minZ);
+    setValue("maxZ", maxZ);
+  }, [setValue, minX, maxX, minY, maxY, minZ, maxZ]);
+
   return (
     <div>
       <div className="mb-2">
@@ -61,7 +92,7 @@ const FormTwo = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <div className="mb-6">
             <label
               htmlFor="maxX"
@@ -94,6 +125,72 @@ const FormTwo = () => {
             <p className="text-red-500 mt-2">{errors.minX?.message}</p>
           </div>
         </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="mb-6">
+            <label
+              htmlFor="maxY"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Max Y
+            </label>
+            <input
+              {...register("maxY")}
+              type="text"
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Max value of x"
+            />
+            <p className="text-red-500 mt-2">{errors.maxY?.message}</p>
+          </div>
+
+          <div className="mb-6">
+            <label
+              htmlFor="minY"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Min Y
+            </label>
+            <input
+              {...register("minY")}
+              type="text"
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Min value of x"
+            />
+            <p className="text-red-500 mt-2">{errors.minY?.message}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-1">
+          <div className="mb-6">
+            <label
+              htmlFor="maxZ"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Max Z
+            </label>
+            <input
+              {...register("maxZ")}
+              type="text"
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Min value of x"
+            />
+            <p className="text-red-500 mt-2">{errors.maxZ?.message}</p>
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="minZ"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Min Z
+            </label>
+            <input
+              {...register("minZ")}
+              type="text"
+              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Min value of x"
+            />
+            <p className="text-red-500 mt-2">{errors.minZ?.message}</p>
+          </div>
+        </div>
+
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"

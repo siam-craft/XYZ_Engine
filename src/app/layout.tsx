@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { CSVContextProvider } from "./context/CSVContext";
 import { FormProvider } from "./context/FormContext";
 import "./globals.css";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <FormProvider>{children}</FormProvider>
+        <CSVContextProvider>
+          <FormProvider>{children}</FormProvider>
+        </CSVContextProvider>
       </body>
     </html>
   );

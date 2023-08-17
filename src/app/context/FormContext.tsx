@@ -61,6 +61,7 @@ export function FormProvider({ children }: IProps) {
     setFormTwoData,
   };
 
+  console.log({ centralFormData });
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 }
 
