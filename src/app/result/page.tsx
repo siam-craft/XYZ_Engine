@@ -1,5 +1,8 @@
 "use client";
 
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
+
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import FormContext from "../context/FormContext";
@@ -35,14 +38,26 @@ const ResultPage = () => {
     setTableData(tableData);
   }, [centralFormData]);
 
+  const handlePDFDownload = async () => {
+    const doc = new jsPDF({ orientation: "landscape" });
+    autoTable(doc, { html: "#table" });
+    doc.save("table.pdf");
+  };
+
   return (
-    <div>
+    <div className="px-16">
       {/* table */}
       <div className="flex flex-col">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-light">
+              <h1 className="text-center text-3xl font-bold py-4">
+                Table Data
+              </h1>
+              <table
+                className="min-w-full text-left text-sm font-light border border-1 shadow-sm"
+                id="table"
+              >
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th scope="col" className="px-6 py-4">
@@ -56,6 +71,21 @@ const ResultPage = () => {
                     </th>
                     <th scope="col" className="px-6 py-4">
                       Min X
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Max X
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Min Y
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Max Y
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Min Z
+                    </th>
+                    <th scope="col" className="px-6 py-4">
+                      Max Z
                     </th>
                   </tr>
                 </thead>
@@ -78,6 +108,21 @@ const ResultPage = () => {
                         <td className="whitespace-nowrap px-6 py-4">
                           {data?.minX}
                         </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {data?.maxX}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {data?.minY}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {data?.maxY}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {data?.minZ}
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {data?.maxZ}
+                        </td>
                       </tr>
                     );
                   })}
@@ -87,9 +132,22 @@ const ResultPage = () => {
           </div>
         </div>
       </div>
-      <button type="button" onClick={handleClick}>
-        Home
-      </button>
+      <div className="flex justify-between">
+        <button
+          className="border border-1 shadow-md px-3 py-2 inline-block"
+          type="button"
+          onClick={handleClick}
+        >
+          Home
+        </button>
+        <button
+          type="button"
+          className="border border-1 shadow-md px-3 py-2 inline-block"
+          onClick={handlePDFDownload}
+        >
+          Download PDF
+        </button>
+      </div>
     </div>
   );
 };
