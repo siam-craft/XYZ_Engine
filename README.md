@@ -6,10 +6,15 @@ Clone this repo first:
   git clone https://github.com/siam-craft/XYZ_Engine.git
 ```
 
-Go to project directory and install all dependencies:
+Go to project directory
 
 ```bash
   cd XYZ_Engine
+```
+
+Install all dependencies:
+
+```bash
   npm install
 ```
 
